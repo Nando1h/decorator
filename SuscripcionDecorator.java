@@ -8,5 +8,14 @@ public class SuscripcionDecorator extends CatalogoDecorator {
         this.usuario = usuario;
     }
 
-    //TODO: Implementar el método obtenerPeliculas() para devolver la lista de películas del catálogo decorado solo si el usuario tiene una suscripción activa al servicio correspondiente. Si el usuario no tiene una suscripción activa, se debe devolver una lista vacía.
+    @Override
+    public List<String> obtenerPeliculas() {
+        ServicioStreaming servicio = getServicio();
+        if (!usuario.tieneSuscripcion(servicio)) {
+            throw new IllegalStateException(
+                    usuario.getNombre() + " no tiene activa la suscripcion de " + servicio.getNombre());
+        }
+
+        return super.obtenerPeliculas();
+    }
 }
